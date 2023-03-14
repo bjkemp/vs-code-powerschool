@@ -12,10 +12,32 @@
   "activationEvents": [],
   "main": "./out/extension.js",
   "contributes": {
-    "commands": [
+    "languages": [
       {
-        "command": "vs-code-powerschool.helloWorld",
-        "title": "Hello World"
+        "id": "tlist_sql",
+        "aliases": [
+          "tlist_sql"
+        ],
+        "extensions": [
+          ".html",
+          ".htm",
+          ".txt",
+          ".js"
+        ],
+        "configuration": "./language-configuration.json"
+      }
+    ],
+    "grammars": [
+      {
+        "language": "tlist_sql",
+        "scopeName": "text.tlist_sql",
+        "path": "./syntaxes/tlist-sql.tmLanguage.json"
+      }
+    ],
+    "snippets": [
+      {
+        "language": "tlist_sql",
+        "path": "./snippets/tlist_sql.json"
       }
     ]
   },

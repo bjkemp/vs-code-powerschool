@@ -1,0 +1,95 @@
+{
+  "name": "tlist_sql",
+  "scopeName": "text.tlist_sql",
+  "match": "~[tlist_sql;([^\\]]+)\\]((?:~\\((?:[^)]+)\\)(?:;[dlfjuhaxmnr]|=\\S+)*\\s*)+)\\[/tlist_sql\\]",
+  "captures": {
+    "1": {
+      "name": "tlist_sql.sql"
+    },
+    "2": {
+      "name": "tlist_sql.columns"
+    }
+  },
+  "patterns": [
+    {
+      "begin": "~[tlist_sql;(?=([^]]*][^[]*)*$)([\\s\\S]*?[^\\s\\[\\]])",
+      "end": "(?<=([^\\]]*\\][^\\[]*)*$)\\[/tlist_sql\\]",
+      "name": "meta.tlist_sql",
+      "patterns": [
+        {
+          "include": "#sql-keywords"
+        },
+        {
+          "include": "#result"
+        },
+        {
+          "include": "#sql-types"
+        },
+        {
+          "include": "#sql-functions"
+        },
+        {
+          "include": "#sql-strings"
+        },
+        {
+          "include": "#sql-comments"
+        },
+        {
+          "include": "#sql-operators"
+        },
+        {
+          "include": "#sql-punctuation"
+        }
+      ]
+    }
+  ],
+  "repository": {
+    "sql-keywords": {
+      "patterns": [
+        {"match": "\\b(SELECT|FROM|WHERE|AND|OR|IN|NOT|LIKE|BETWEEN|AS|JOIN|ON|INNER|LEFT|RIGHT|FULL|OUTER|GROUP BY|ORDER BY|ASC|DESC)\\b", "name": "keyword"}
+      ]
+    },
+    "sql-types": {
+      "patterns": [
+        {"match": "\\b(INT|VARCHAR|DATE|BOOLEAN)\\b", "name": "storage.type"}
+      ]
+    },
+    "sql-functions": {
+      "patterns": [
+        {"match": "\\b(COUNT|SUM|MAX|MIN|AVG)\\b", "name": "support.function"}
+      ]
+    },
+    "sql-strings": {
+      "patterns": [
+        {"match": "'[^']*'", "name": "string"}
+      ]
+    },
+    "sql-comments": {
+      "patterns": [
+        {"match": "--.*$", "name": "comment"}
+      ]
+    },
+    "sql-operators": {
+      "patterns": [
+        {"match": "\\+|-|\\*|/|=|<|>|<=|>=|<>", "name": "keyword.operator"}
+      ]
+    },
+    "sql-punctuation": {
+      "patterns": [
+        {"match": "[(),;]", "name": "punctuation"}
+      ]
+    },
+    "result": {
+      "begin": "~\\(",
+      "end": "\\)",
+      "name": "meta.result",
+      "patterns": [
+        {
+          "begin": "~\\(",
+          "end": "\\)",
+          "name": "entity.name.result"
+        }
+      ]
+    }
+  }
+}

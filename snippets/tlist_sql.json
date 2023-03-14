@@ -1,0 +1,9 @@
+{
+  "tlist_sql": {
+    "prefix": "~[tlist_sql;",
+    "body": [
+      "~[tlist_sql;$1]$0[/tlist_sql"
+    ],
+    "description": "Insert a TLIST_SQL tag"
+  }
+}
