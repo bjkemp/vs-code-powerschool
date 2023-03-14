@@ -9,6 +9,7 @@
   "categories": [
     "Other"
   ],
+  "icon": "images/icon.png",
   "activationEvents": [],
   "main": "./out/extension.js",
   "contributes": {
@@ -61,5 +62,14 @@
     "mocha": "^10.2.0",
     "typescript": "^4.9.5",
     "@vscode/test-electron": "^2.2.3"
-  }
+  },
+  "bugs": {
+    "url": "https://github.com/bjkemp/vs-code-powerschool/issues",
+    "email": "bjkemp@gmail.com"
+  },
+  "repository": {
+    "type": "git",
+    "url": "https://github.com/bjkemp/vs-code-powerschool.git"
+  },
+  "homepage": "https://github.com/bjkemp/vs-code-powerschool/blob/main/README.md"
 }
