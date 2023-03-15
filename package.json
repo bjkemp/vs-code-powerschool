@@ -3,6 +3,7 @@
   "displayName": "VS Code - PowerSchool",
   "description": "Syntax highlighting for TLIST_SQL",
   "version": "0.0.1",
+  "publisher": "BenjaminKemp",
   "engines": {
     "vscode": "^1.76.0"
   },
