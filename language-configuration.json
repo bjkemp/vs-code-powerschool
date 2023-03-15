@@ -1,10 +1,10 @@
 {
   "comments": {
-    "lineComment": "//"
+    "lineComment": "//",    
   },
   "brackets": [
     ["~[tlist_sql;", "]"],
-    ["(", ")"],
+    ["~(", ")"],
     ["[", "]"],
     ["{", "}"]
   ],
@@ -15,9 +15,9 @@
       "notIn": ["string", "comment"]
     },
     {
-      "open": "(",
+      "open": "~(",
       "close": ")",
-      "notIn": ["string", "comment"]
+      "notIn": ["comment"]
     },
     {
       "open": "[",
