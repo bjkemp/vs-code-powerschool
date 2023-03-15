@@ -11,8 +11,7 @@
   "autoClosingPairs": [
     {
       "open": "~[tlist_sql;",
-      "close": "[/tlist_sql]",
-      "notIn": ["string", "comment"]
+      "close": "[/tlist_sql]"
     },
     {
       "open": "~(",

@@ -2,20 +2,24 @@
 <html>
   <head>
     <script>
+      let something = 0
+      something++
+      
       const list = [
         ~[tlist_sql;
         SELECT 100 things
         FROM dual
-      ]~(things)[/tlist_sql]
+      ;]~(things)[/tlist_sql]
       ];
     </script>
   </head>
   <body>
     <table>
-      <tbody>∏
+      <tbody>
         ~[tlist_sql;
         SELECT 'foo' bar
         FROM dual
+        ORDER BY something
         ;]<tr><td>~(bar)</td></tr>[/tlist_sql]
       </tbody>
     </table>

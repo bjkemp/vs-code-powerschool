@@ -1,17 +1,26 @@
 {
-  "$schema": "https://raw.githubusercontent.com/martinring/tmlanguage/master/tmlanguage.json",
   "name": "tlist_sql",
-  "scopeName": "source.tlist_sql",
+  "scopeName": "injection.tlist_sql",
+  "injectionSelector": "L:*",
   "patterns": [
     {
-      "begin": "~\\[tlist_sql;",
+      "begin": "~\\[tlist_sql",
       "end": "\\[/tlist_sql\\]",
       "name": "meta.tlist_sql",
       "patterns": [
         {
-          "begin": "~\\[tlist_sql;",
+          "begin": "~\\[tlist_sql",
           "end": "[\\];\\]]",
           "include": "source.sql"
+        },
+        {
+          "match": "ERROR:.*$",
+          "name": "error.message.sql",
+          "captures": {
+              "0": {
+                  "name": "message.sql"
+              }
+          }
         },
         {
           "include": "#result"

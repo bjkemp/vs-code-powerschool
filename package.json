@@ -4,51 +4,49 @@
   "description": "Syntax highlighting for the TLIST_SQL tag",
   "version": "0.0.1",
   "publisher": "BenjaminKemp",
+  "license": "MIT",
   "engines": {
     "vscode": "^1.76.0"
   },
-  "categories": ["Programming Languages"],
+  "categories": ["Programming Languages", "Snippets"],
   "icon": "images/icon.png",
-  "activationEvents": ["onStartupFinished"],
   "main": "./out/extension.js",
   "contributes": {
-    "languages": [
+    "languages": [{
+      "id": "tlist_sql",
+      "configuration": "./language-configuration.json",
+      "aliases": ["TLIST_SQL"]
+    }],
+    "snippets": [
       {
-        "id": "tlist_sql",
-        "extensions": [".tlist_sql"],
-        "aliases": ["TLIST_SQL"],
-        "configuration": "./language-configuration.json"
+        "language": "tlist_sql",
+        "path": "./snippets/snippets.json"
       },
       {
-        "id": "json",
-        "extensions": [".json"],
-        "aliases": ["JSON"],
-        "configuration": "./language-configuration.json"
+        "language": "javascript",
+        "path": "./snippets/snippets.json"
       },
       {
-        "id": "html",
-        "extensions": [".html", ".htm"],
-        "aliases": ["HTML"],
-        "configuration": "./language-configuration.json"
-      },
-      {
-        "id": "javascript",
-        "extensions": [".js"],
-        "aliases": ["JavaScript"],
-        "configuration": "./language-configuration.json"
+        "language": "html",
+        "path": "./snippets/snippets.json"
       }
     ],
     "grammars": [
       {
-        "scopeName": "tlist_sql.injection",
-        "injectTo": ["text.html.basic","text.html.derivative","source.js","source.json","text"],
-        "path": "./syntaxes/tlist_sql.tmLanguage.json"
-      }
-    ],
-    "snippets": [
-      {
         "language": "tlist_sql",
-        "path": "./snippets/tlist_sql.json"
+        "scopeName": "source.tlist_sql",
+        "path": "./syntaxes/tlist_sql.tmLanguage.json"
+      },
+      {
+        "scopeName": "injection.tlist_sql",
+        "path": "./syntaxes/injection.tlist_sql.tmLanguage.json",
+        "injectTo": [
+          "source.css",
+          "source.js",
+          "source.json",
+          "text.html.derivative",
+          "text.xml"
+        ]
       }
     ]
   },
