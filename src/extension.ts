@@ -18,10 +18,12 @@ const provider: vscode.DocumentSemanticTokensProvider = {
   	document: vscode.TextDocument
 	): vscode.ProviderResult<vscode.SemanticTokens> {
 		const builder = new vscode.SemanticTokensBuilder();
+		console.log(`Tokenizing document: ${document.uri}`);
 
 		const regex = /~\[tlist_sql;([\s\S]*?)\]\s*(.*?)\s*\[\/tlist_sql\]/gm;
 		let match: RegExpExecArray | null;
 		while ((match = regex.exec(document.getText())) !== null) {
+			console.log(`Found tlist_sql token: ${match[0]}`);
 			const start = document.positionAt(match.index);
 			const end = document.positionAt(match.index + match[0].length);
 
@@ -40,6 +42,7 @@ const provider: vscode.DocumentSemanticTokensProvider = {
 			);
 		}
 
+		console.log(`Tokenizing completed for document: ${document.uri}`);
 		return builder.build();
 	}
 };
@@ -60,21 +63,22 @@ const providerRegistration = vscode.languages.registerDocumentSemanticTokensProv
 export function activate(context: vscode.ExtensionContext) {
 
 	context.subscriptions.push(providerRegistration);
+	console.log('[TLIST_SQL]Provider registration added to context.subscriptions:', providerRegistration);
 
 	// Use the console to output diagnostic information (console.log) and errors (console.error)
 	// This line of code will only be executed once when your extension is activated
 	console.log('Congratulations, your extension "vs-code-powerschool" is now active!');
 
-	// The command has been defined in the package.json file
-	// Now provide the implementation of the command with registerCommand
-	// The commandId parameter must match the command field in package.json
-	let disposable = vscode.commands.registerCommand('vs-code-powerschool.helloWorld', () => {
-		// The code you place here will be executed every time your command is executed
-		// Display a message box to the user
-		vscode.window.showInformationMessage('Hello World from VS Code - PowerSchool!');
-	});
+	// // The command has been defined in the package.json file
+	// // Now provide the implementation of the command with registerCommand
+	// // The commandId parameter must match the command field in package.json
+	// let disposable = vscode.commands.registerCommand('vs-code-powerschool.helloWorld', () => {
+	// 	// The code you place here will be executed every time your command is executed
+	// 	// Display a message box to the user
+	// 	vscode.window.showInformationMessage('Hello World from VS Code - PowerSchool!');
+	// });
 
-	context.subscriptions.push(disposable);
+	// context.subscriptions.push(disposable);
 }
 
 // This method is called when your extension is deactivated

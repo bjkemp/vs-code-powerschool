@@ -3,7 +3,7 @@
     "lineComment": "//"
   },
   "brackets": [
-    ["~[tlist_sql;", "]"],
+    ["~[tlist_sql;", "[/tlist_sql]"],
     ["~(", ")"],
     ["[", "]"],
     ["{", "}"]
@@ -11,7 +11,7 @@
   "autoClosingPairs": [
     {
       "open": "~[tlist_sql;",
-      "close": "]",
+      "close": "[/tlist_sql]",
       "notIn": ["string", "comment"]
     },
     {

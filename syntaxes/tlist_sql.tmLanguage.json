@@ -1,7 +1,7 @@
 {
   "name": "tlist_sql",
   "scopeName": "text.tlist_sql",
-  "fileTypes": ["html", "htm", "txt", "js", "json"],
+  "injectionSelector": "text.html.basic, text.html.derivative, source.js, source.json, text",
   "match": "~[tlist_sql;([^\\]]+)\\]((?:~\\((?:[^)]+)\\)(?:;[dlfjuhaxmnr]|=\\S+)*\\s*)+)\\[/tlist_sql\\]",
   "captures": {
     "1": {

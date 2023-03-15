@@ -9,10 +9,16 @@
   },
   "categories": ["Programming Languages"],
   "icon": "images/icon.png",
-  "activationEvents": [],
+  "activationEvents": ["onStartupFinished"],
   "main": "./out/extension.js",
   "contributes": {
     "languages": [
+      {
+        "id": "tlist_sql",
+        "extensions": [".tlist_sql"],
+        "aliases": ["TLIST_SQL"],
+        "configuration": "./language-configuration.json"
+      },
       {
         "id": "json",
         "extensions": [".json"],
@@ -34,18 +40,8 @@
     ],
     "grammars": [
       {
-        "language": "json",
-        "scopeName": "source.json",
-        "path": "./syntaxes/tlist_sql.tmLanguage.json"
-      },
-      {
-        "language": "html",
-        "scopeName": "source.html",
-        "path": "./syntaxes/tlist_sql.tmLanguage.json"
-      },
-      {
-        "language": "javascript",
-        "scopeName": "source.javascript",
+        "scopeName": "tlist_sql.injection",
+        "injectTo": ["text.html.basic","text.html.derivative","source.js","source.json","text"],
         "path": "./syntaxes/tlist_sql.tmLanguage.json"
       }
     ],
