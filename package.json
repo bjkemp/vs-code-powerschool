@@ -27,6 +27,18 @@
           ".js"
         ],
         "configuration": "./language-configuration.json"
+      },
+      {
+        "id": "json",
+        "extensions": [".json"],
+        "aliases": ["JSON"],
+        "configuration": "./language-configuration.json"
+      },
+      {
+        "id": "html",
+        "extensions": [".html", ".htm"],
+        "aliases": ["HTML"],
+        "configuration": "./language-configuration.json"
       }
     ],
     "grammars": [
@@ -34,6 +46,16 @@
         "language": "tlist_sql",
         "scopeName": "text.tlist_sql",
         "path": "./syntaxes/tlist-sql.tmLanguage.json"
+      },
+      {
+        "language": "json",
+        "scopeName": "source.json",
+        "path": "./syntaxes/json.tmLanguage.json"
+      },
+      {
+        "language": "html",
+        "scopeName": "source.html",
+        "path": "./syntaxes/html.tmLanguage.json"
       }
     ],
     "snippets": [

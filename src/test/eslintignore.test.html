@@ -1,0 +1,23 @@
+<!DOCTYPE html>
+<html>
+  <head>
+    <script>
+      const list = [
+        ~[tlist_sql;
+        SELECT 100 things
+        FROM dual
+      ]~(things)[/tlist_sql]
+      ];
+    </script>
+  </head>
+  <body>
+    <table>
+      <tbody>
+        ~[tlist_sql;
+        SELECT 'foo' bar
+        FROM dual
+        ;]<tr><td>~(bar)</td></tr>[/tlist_sql]
+      </tbody>
+    </table>
+  </body>
+</html>
