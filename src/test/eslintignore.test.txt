@@ -9,3 +9,8 @@
   SELECT 100 things
   FROM dual
 ;]~(things)[/tlist_sql]
+
+~[tlist_sql;
+  SELECT *
+  FROM foo
+][/tlist_sql]

@@ -1,33 +1,18 @@
 {
   "name": "vs-code-powerschool",
   "displayName": "VS Code - PowerSchool",
-  "description": "Syntax highlighting for TLIST_SQL",
+  "description": "Syntax highlighting for the TLIST_SQL tag",
   "version": "0.0.1",
   "publisher": "BenjaminKemp",
   "engines": {
     "vscode": "^1.76.0"
   },
-  "categories": [
-    "Other"
-  ],
+  "categories": ["Programming Languages"],
   "icon": "images/icon.png",
   "activationEvents": [],
   "main": "./out/extension.js",
   "contributes": {
     "languages": [
-      {
-        "id": "tlist_sql",
-        "aliases": [
-          "tlist_sql"
-        ],
-        "extensions": [
-          ".html",
-          ".htm",
-          ".txt",
-          ".js"
-        ],
-        "configuration": "./language-configuration.json"
-      },
       {
         "id": "json",
         "extensions": [".json"],
@@ -39,23 +24,29 @@
         "extensions": [".html", ".htm"],
         "aliases": ["HTML"],
         "configuration": "./language-configuration.json"
+      },
+      {
+        "id": "javascript",
+        "extensions": [".js"],
+        "aliases": ["JavaScript"],
+        "configuration": "./language-configuration.json"
       }
     ],
     "grammars": [
       {
-        "language": "tlist_sql",
-        "scopeName": "text.tlist_sql",
-        "path": "./syntaxes/tlist-sql.tmLanguage.json"
-      },
-      {
         "language": "json",
         "scopeName": "source.json",
-        "path": "./syntaxes/json.tmLanguage.json"
+        "path": "./syntaxes/tlist_sql.tmLanguage.json"
       },
       {
         "language": "html",
         "scopeName": "source.html",
-        "path": "./syntaxes/html.tmLanguage.json"
+        "path": "./syntaxes/tlist_sql.tmLanguage.json"
+      },
+      {
+        "language": "javascript",
+        "scopeName": "source.javascript",
+        "path": "./syntaxes/tlist_sql.tmLanguage.json"
       }
     ],
     "snippets": [

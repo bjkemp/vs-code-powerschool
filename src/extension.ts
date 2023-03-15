@@ -2,9 +2,64 @@
 // Import the module and reference it with the alias vscode in your code below
 import * as vscode from 'vscode';
 
+enum TokenType {
+	tlist_sql = 1
+}
+
+const selector: vscode.DocumentSelector = [
+	{scheme: 'file', language: 'json'},
+	{scheme: 'file', language: 'html'},
+	{scheme: 'file', language: 'javascript'},
+	{scheme: 'file', language: 'text'},
+]
+
+const provider: vscode.DocumentSemanticTokensProvider = {
+	provideDocumentSemanticTokens(
+  	document: vscode.TextDocument
+	): vscode.ProviderResult<vscode.SemanticTokens> {
+		const builder = new vscode.SemanticTokensBuilder();
+
+		const regex = /~\[tlist_sql;([\s\S]*?)\]\s*(.*?)\s*\[\/tlist_sql\]/gm;
+		let match: RegExpExecArray | null;
+		while ((match = regex.exec(document.getText())) !== null) {
+			const start = document.positionAt(match.index);
+			const end = document.positionAt(match.index + match[0].length);
+
+			builder.push(
+				start.line,
+				start.character,
+				match[1].trim().split(/\s+/g).length, // token length
+				TokenType.tlist_sql
+			);
+
+			builder.push(
+				end.line,
+				end.character,
+				0, // token length
+				0
+			);
+		}
+
+		return builder.build();
+	}
+};
+
+const legend = new vscode.SemanticTokensLegend(
+  ['tlist_sql'],
+  []
+);
+
+const providerRegistration = vscode.languages.registerDocumentSemanticTokensProvider(
+  selector,
+  provider,
+  legend
+);
+
 // This method is called when your extension is activated
 // Your extension is activated the very first time the command is executed
 export function activate(context: vscode.ExtensionContext) {
+
+	context.subscriptions.push(providerRegistration);
 
 	// Use the console to output diagnostic information (console.log) and errors (console.error)
 	// This line of code will only be executed once when your extension is activated
