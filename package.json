@@ -8,16 +8,25 @@
   "engines": {
     "vscode": "^1.76.0"
   },
-  "categories": ["Programming Languages", "Snippets"],
+  "categories": [
+    "Programming Languages",
+    "Snippets"
+  ],
   "icon": "images/icon.png",
   "main": "./out/extension.js",
-  "activationEvents": ["onStartupFinished"],
+  "activationEvents": [
+    "onStartupFinished"
+  ],
   "contributes": {
-    "languages": [{
-      "id": "tlist_sql",
-      "configuration": "./language-configuration.json",
-      "aliases": ["TLIST_SQL"]
-    }],
+    "languages": [
+      {
+        "id": "tlist_sql",
+        "configuration": "./language-configuration.json",
+        "aliases": [
+          "TLIST_SQL"
+        ]
+      }
+    ],
     "snippets": [
       {
         "language": "tlist_sql",
