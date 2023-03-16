@@ -1,5 +1,7 @@
 # TLIST_SQL Syntax Highlighting Extension for Visual Studio Code
 
+This is a dead end. Looks like as of 2019, VS Code no longer lets you edit the diagnostic queue for existing collections. Hopefully there will be a way around this at some point. (i.e. I can't get rid of javascript problem highlighting when using tlist_sqls in embedded javascript)
+
 This extension provides syntax highlighting for TList SQL statements in Visual Studio Code. The author is not affiliated with PowerSchool.
 
 ## Features
