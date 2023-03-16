@@ -15,6 +15,7 @@ function activate(context: vscode.ExtensionContext) {
 
   // Register a document change listener to check for SQL errors in the tlist_sql tag
   vscode.workspace.onDidChangeTextDocument((e) => {
+		console.log(e.document.uri.scheme);
     if (e.document.uri.scheme === 'tlist') {
       const text = e.document.getText();
       let match: RegExpExecArray | null;
