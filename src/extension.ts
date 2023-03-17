@@ -11,8 +11,8 @@ const editor = vscode.window.activeTextEditor;
 
 
 function tlistSqlDiagnostics(range: vscode.Range, document: vscode.TextDocument): void {
-  const diagnostics = vscode.languages.getDiagnostics();
-  console.log(diagnostics)
+  // const diagnostics = vscode.languages.getDiagnostics();
+  // console.log(diagnostics)
   
   // const diagnosticCollection = vscode.languages.createDiagnosticCollection();
   // for(let diagnostic of diagnostics) {
@@ -29,21 +29,21 @@ function tlistSqlDiagnostics(range: vscode.Range, document: vscode.TextDocument)
   // }
 
   // const diagnostics = vscode.languages.createDiagnosticCollection('tlist_sql');
-  const tlistErrors = []
+  // const tlistErrors = [];
 
   for (let i = range.start.line; i <= range.end.line; i++) {
     const line = editor?.document.lineAt(i);
     const lineText = line?.text;
-    tlistErrors.push({ message: `Syntax error at line ${i}`, line: i })
-    console.log(`Line ${i}: ${lineText}`);
+    // tlistErrors.push({ message: `Syntax error at line ${i}`, line: i })
+    // console.log(`Line ${i}: ${lineText}`);
   }
 
-  const diagnosticArray: vscode.Diagnostic[] = tlistErrors.map(error => {
-    const range = new vscode.Range(error.line - 1, 0, error.line - 1, Number.MAX_VALUE);
-    const diagnostic = new vscode.Diagnostic(range, error.message, vscode.DiagnosticSeverity.Error);
-    diagnostic.source = 'tlist_sql';
-    return diagnostic;
-  });
+  // const diagnosticArray: vscode.Diagnostic[] = tlistErrors.map(error => {
+  //   const range = new vscode.Range(error.line - 1, 0, error.line - 1, Number.MAX_VALUE);
+  //   const diagnostic = new vscode.Diagnostic(range, error.message, vscode.DiagnosticSeverity.Error);
+  //   diagnostic.source = 'tlist_sql';
+  //   return diagnostic;
+  // });
 
   // diagnostics.set(document.uri, diagnosticArray);
 }
@@ -53,7 +53,7 @@ function validateDocument(document: vscode.TextDocument): void {
   let match: RegExpExecArray | null;
   while ((match = regex.exec(text))) {
     const range = new vscode.Range(document.positionAt(match.index), document.positionAt(match.index + match[0].length));
-    console.log(`Range: ${range.start.line} - ${range.end.line}`)
+    // console.log(`Range: ${range.start.line} - ${range.end.line}`)
     tlistSqlDiagnostics(range, document);
     // if (editor) {
     //   const diagnosticCollection = vscode.languages.createDiagnosticCollection();
@@ -83,11 +83,11 @@ function validateDocument(document: vscode.TextDocument): void {
 
 // This method is called when your extension is activated
 export function activate(context: vscode.ExtensionContext): void {
-  // Register this function to be called when a document is opened or changed
-  context.subscriptions.push(vscode.workspace.onDidChangeTextDocument(event => validateDocument(event.document)));
-  context.subscriptions.push(vscode.workspace.onDidOpenTextDocument(document => validateDocument(document)));
-  // Validate the SQL code in all open documents on activation
-  vscode.workspace.textDocuments.forEach(validateDocument);
+  // // Register this function to be called when a document is opened or changed
+  // context.subscriptions.push(vscode.workspace.onDidChangeTextDocument(event => validateDocument(event.document)));
+  // context.subscriptions.push(vscode.workspace.onDidOpenTextDocument(document => validateDocument(document)));
+  // // Validate the SQL code in all open documents on activation
+  // vscode.workspace.textDocuments.forEach(validateDocument);
 }
 
 // This method is called when your extension is deactivated
