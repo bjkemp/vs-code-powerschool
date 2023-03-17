@@ -10,6 +10,12 @@ The extension adds syntax highlighting for TLIST_SQL statements enclosed in `~[t
 
 * This extension does not overwrite javascript linting errors in the SQL statements. This is a limitation of the Visual Studio Code API that I hope to address in a future release.
 
+## Releases
+
+### 0.0.2
+
+* Reworking as a Prettier extension.
+
 ### 0.0.1
 
 * Initial release of the TList SQL Syntax Highlighting Extension for Visual Studio Code.

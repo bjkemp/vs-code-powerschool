@@ -1,0 +1,22 @@
+{
+  "overrides": [
+    {
+      "files": ["*.js", "*.json", "*.htm", "*.html", "*.txt"],
+      "options": {
+        "htmlWhitespaceSensitivity": {
+          "tlist_sql": "ignore"
+        },
+        "plugins": [
+          {
+            "tag": "tlist_sql",
+            "type": "block",
+            "content": "text",
+            "attributes": {
+              "sql": "text"
+            }
+          }
+        ]
+      }
+    }
+  ]
+}
