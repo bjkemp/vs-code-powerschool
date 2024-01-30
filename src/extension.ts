@@ -1,4 +1,5 @@
 import * as vscode from 'vscode';
+import { TlistLinter } from './tlistLinter';
 
 // Define a diagnostic collection to hold our SQL errors
 const sqlDiagnostics = vscode.languages.createDiagnosticCollection('sql');
@@ -83,6 +84,14 @@ function validateDocument(document: vscode.TextDocument): void {
 
 // This method is called when your extension is activated
 export function activate(context: vscode.ExtensionContext): void {
+  const tlistLinter = new TlistLinter();
+  const provider = vscode.languages.registerCodeActionsProvider(
+    { pattern: '**/*.sql', scheme: 'file' }, // Adjust this to match the files you want to lint
+    tlistLinter,
+    { providedCodeActionKinds: TlistLinter.providedCodeActionKinds }
+  );
+  context.subscriptions.push(provider);
+
   // // Register this function to be called when a document is opened or changed
   // context.subscriptions.push(vscode.workspace.onDidChangeTextDocument(event => validateDocument(event.document)));
   // context.subscriptions.push(vscode.workspace.onDidOpenTextDocument(document => validateDocument(document)));
