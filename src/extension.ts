@@ -1,5 +1,7 @@
 import * as vscode from 'vscode';
 import { TlistLinter } from './tlistLinter';
+import { parseDefaultPropertiesFiles } from './propertiesParser';
+import { I18nProvider } from './i18n/i18nProvider';
 
 // Define a diagnostic collection to hold our SQL errors
 const sqlDiagnostics = vscode.languages.createDiagnosticCollection('sql');
@@ -9,7 +11,6 @@ const regex = /~\[tlist_sql;([\s\S]*?)\]\s*(.*?)\s*\[\/tlist_sql\]/gm;
 
 // Get the active editor
 const editor = vscode.window.activeTextEditor;
-
 
 function tlistSqlDiagnostics(range: vscode.Range, document: vscode.TextDocument): void {
   // const diagnostics = vscode.languages.getDiagnostics();
@@ -84,6 +85,7 @@ function validateDocument(document: vscode.TextDocument): void {
 
 // This method is called when your extension is activated
 export function activate(context: vscode.ExtensionContext): void {
+  console.log('Extension activated');
   const tlistLinter = new TlistLinter();
   const provider = vscode.languages.registerCodeActionsProvider(
     { pattern: '**/*.sql', scheme: 'file' }, // Adjust this to match the files you want to lint
@@ -91,6 +93,72 @@ export function activate(context: vscode.ExtensionContext): void {
     { providedCodeActionKinds: TlistLinter.providedCodeActionKinds }
   );
   context.subscriptions.push(provider);
+
+  // Initialize the i18n provider
+  const i18nProvider = new I18nProvider();
+
+  // Register i18n providers
+  context.subscriptions.push(
+    vscode.languages.registerHoverProvider(['html', 'javascript', 'typescript'], i18nProvider),
+    vscode.languages.registerCompletionItemProvider(['html', 'javascript', 'typescript'], i18nProvider),
+    vscode.languages.registerDefinitionProvider(['html', 'javascript', 'typescript'], i18nProvider)
+  );
+
+  // Register hover provider for PSHTML files
+  vscode.languages.registerHoverProvider('html', {
+    provideHover(document, position, token) {
+      const range = document.getWordRangeAtPosition(position, /~\[text:[^\]]+\]/);
+      if (range) {
+        const key = document.getText(range).match(/~\[text:([^\]]+)\]/)?.[1];
+        console.log('Hover key:', key);
+        if (key) {
+          const translations = parseDefaultPropertiesFiles();
+          const translation = translations[key];
+          console.log('Translation found:', translation);
+          if (translation) {
+            return new vscode.Hover(`**Translation:** ${translation}`);
+          }
+        }
+      }
+      return undefined;
+    }
+  });
+
+  // Register completion item provider for PSHTML files
+  vscode.languages.registerCompletionItemProvider('html', {
+    provideCompletionItems(document, position, token, context) {
+      const linePrefix = document.lineAt(position).text.substr(0, position.character);
+      console.log('Line prefix:', linePrefix);
+      if (!linePrefix.endsWith('~[text:')) {
+        return undefined;
+      }
+
+      const translations = parseDefaultPropertiesFiles();
+      console.log('Available keys:', Object.keys(translations));
+      return Object.keys(translations).map(key => {
+        const completionItem = new vscode.CompletionItem(key, vscode.CompletionItemKind.Text);
+        completionItem.detail = translations[key];
+        completionItem.insertText = `${key}]`;
+        return completionItem;
+      });
+    }
+  }, '~');
+
+  // Watch for changes in the MessageKeys directory
+  const messageKeysWatcher = vscode.workspace.createFileSystemWatcher('**/src/powerschool/MessageKeys/*.properties');
+
+  // Function to reload translations
+  function reloadTranslations() {
+    console.log('Reloading translations...');
+    parseDefaultPropertiesFiles();
+  }
+
+  // Register events to reload translations on file changes
+  messageKeysWatcher.onDidChange(reloadTranslations);
+  messageKeysWatcher.onDidCreate(reloadTranslations);
+  messageKeysWatcher.onDidDelete(reloadTranslations);
+
+  context.subscriptions.push(messageKeysWatcher);
 
   // // Register this function to be called when a document is opened or changed
   // context.subscriptions.push(vscode.workspace.onDidChangeTextDocument(event => validateDocument(event.document)));

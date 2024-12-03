@@ -15,9 +15,22 @@
   "icon": "images/icon.png",
   "main": "./out/extension.js",
   "activationEvents": [
-    "onStartupFinished"
+    "onStartupFinished",
+    "onLanguage:html",
+    "workspaceContains:**/MessageKeys/*.properties"
   ],
   "contributes": {
+    "configuration": {
+      "type": "object",
+      "title": "PowerSchool I18n Settings",
+      "properties": {
+        "powerschoolI18n.messageKeysPath": {
+          "type": "string",
+          "default": "src/powerschool/MessageKeys",
+          "description": "Path to the directory containing .properties files for translations."
+        }
+      }
+    },
     "languages": [
       {
         "id": "tlist_sql",
@@ -70,18 +83,18 @@
   },
   "devDependencies": {
     "@types/glob": "^8.1.0",
-    "@types/mocha": "^10.0.1",
-    "@types/node": "~16.18.16",
-    "@types/semver": "^7.3.13",
-    "@types/vscode": "^1.76.0",
-    "@typescript-eslint/eslint-plugin": "^5.55.0",
-    "@typescript-eslint/parser": "^5.55.0",
-    "@vscode/test-electron": "^2.3.0",
-    "eslint": "^8.36.0",
-    "glob": "^8.1.0",
-    "mocha": "^10.2.0",
+    "@types/mocha": "^10.0.10",
+    "@types/node": "~22.10.0",
+    "@types/semver": "^7.5.8",
+    "@types/vscode": "^1.95.0",
+    "@typescript-eslint/eslint-plugin": "^8.16.0",
+    "@typescript-eslint/parser": "^8.16.0",
+    "@vscode/test-electron": "^2.4.1",
+    "eslint": "^9.15.0",
+    "glob": "^11.0.0",
+    "mocha": "^10.8.2",
     "sql-lint": "^1.0.0",
-    "typescript": "^4.9.5"
+    "typescript": "^5.7.2"
   },
   "bugs": {
     "url": "https://github.com/bjkemp/vs-code-powerschool/issues",
