@@ -2,7 +2,7 @@
   "name": "vs-code-powerschool",
   "displayName": "VS Code - PowerSchool",
   "description": "Syntax highlighting for the TLIST_SQL tag",
-  "version": "0.0.1",
+  "version": "0.0.2",
   "publisher": "BenjaminKemp",
   "license": "MIT",
   "engines": {
@@ -90,6 +90,7 @@
     "@typescript-eslint/eslint-plugin": "^8.16.0",
     "@typescript-eslint/parser": "^8.16.0",
     "@vscode/test-electron": "^2.4.1",
+    "@vscode/vsce": "^3.2.1",
     "eslint": "^9.15.0",
     "glob": "^11.0.0",
     "mocha": "^10.8.2",
