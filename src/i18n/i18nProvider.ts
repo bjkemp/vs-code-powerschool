@@ -1,6 +1,5 @@
 import * as vscode from 'vscode';
 import * as path from 'path';
-import { parsePropertiesFiles } from '../propertiesParser';
 
 interface TranslationEntry {
     key: string;
@@ -15,22 +14,24 @@ export class I18nProvider implements vscode.HoverProvider, vscode.CompletionItem
 
     constructor() {
         this.diagnosticCollection = vscode.languages.createDiagnosticCollection('powerschool-i18n');
-        this.loadTranslations();
+        void this.loadTranslations();
         
         // Watch for changes in translation files
         const watcher = vscode.workspace.createFileSystemWatcher('**/MessageKeys/*.properties');
-        watcher.onDidChange(() => this.loadTranslations());
-        watcher.onDidCreate(() => this.loadTranslations());
-        watcher.onDidDelete(() => this.loadTranslations());
+        watcher.onDidChange(() => void this.loadTranslations());
+        watcher.onDidCreate(() => void this.loadTranslations());
+        watcher.onDidDelete(() => void this.loadTranslations());
     }
 
-    private async loadTranslations() {
+    private async loadTranslations(): Promise<void> {
         this.translations.clear();
         const config = vscode.workspace.getConfiguration('powerschoolI18n');
         const messageKeysPath = config.get<string>('messageKeysPath') || 'src/powerschool/MessageKeys';
         
         const workspaceFolders = vscode.workspace.workspaceFolders;
-        if (!workspaceFolders) return;
+        if (!workspaceFolders) {
+            return;
+        }
 
         const fullPath = path.join(workspaceFolders[0].uri.fsPath, messageKeysPath);
         const files = await vscode.workspace.findFiles(new vscode.RelativePattern(fullPath, '*.properties'));
@@ -64,19 +65,23 @@ export class I18nProvider implements vscode.HoverProvider, vscode.CompletionItem
         this.updateDiagnostics();
     }
 
-    private updateDiagnostics() {
+    private updateDiagnostics(): void {
         this.diagnosticCollection.clear();
         const diagnostics = new Map<string, vscode.Diagnostic[]>();
 
         // Compare translations across locales
         const locales = Array.from(this.translations.keys());
         const baseLocale = locales.find(l => l.endsWith('en')) || locales[0];
-        if (!baseLocale) return;
+        if (!baseLocale) {
+            return;
+        }
 
         const baseTranslations = this.translations.get(baseLocale)!;
         
         for (const locale of locales) {
-            if (locale === baseLocale) continue;
+            if (locale === baseLocale) {
+                continue;
+            }
             
             const localeTranslations = this.translations.get(locale)!;
             const missingKeys = Array.from(baseTranslations.keys())
@@ -106,11 +111,13 @@ export class I18nProvider implements vscode.HoverProvider, vscode.CompletionItem
         }
     }
 
-    provideHover(document: vscode.TextDocument, position: vscode.Position): vscode.Hover | undefined {
-        const wordRange = document.getWordRangeAtPosition(position);
-        if (!wordRange) return undefined;
+    provideHover(_document: vscode.TextDocument, position: vscode.Position, _token: vscode.CancellationToken): vscode.Hover | undefined {
+        const wordRange = _document.getWordRangeAtPosition(position);
+        if (!wordRange) {
+            return undefined;
+        }
 
-        const word = document.getText(wordRange);
+        const word = _document.getText(wordRange);
         const translations: string[] = [];
 
         for (const [locale, localeMap] of this.translations) {
@@ -127,10 +134,12 @@ export class I18nProvider implements vscode.HoverProvider, vscode.CompletionItem
         return undefined;
     }
 
-    provideCompletionItems(document: vscode.TextDocument, position: vscode.Position): vscode.CompletionItem[] {
+    provideCompletionItems(_document: vscode.TextDocument, _position: vscode.Position, _token: vscode.CancellationToken): vscode.CompletionItem[] {
         const items: vscode.CompletionItem[] = [];
         const baseLocale = Array.from(this.translations.keys()).find(l => l.endsWith('en'));
-        if (!baseLocale) return items;
+        if (!baseLocale) {
+            return items;
+        }
 
         const baseTranslations = this.translations.get(baseLocale)!;
         for (const [key, translation] of baseTranslations) {
@@ -147,22 +156,25 @@ export class I18nProvider implements vscode.HoverProvider, vscode.CompletionItem
         return items;
     }
 
-    provideDefinition(document: vscode.TextDocument, position: vscode.Position): vscode.Definition | undefined {
-        const wordRange = document.getWordRangeAtPosition(position);
-        if (!wordRange) return undefined;
-
-        const word = document.getText(wordRange);
-        const baseLocale = Array.from(this.translations.keys()).find(l => l.endsWith('en'));
-        if (!baseLocale) return undefined;
-
-        const translation = this.translations.get(baseLocale)?.get(word);
-        if (translation) {
-            return new vscode.Location(
-                vscode.Uri.file(translation.file),
-                new vscode.Position(translation.line, 0)
-            );
+    provideDefinition(_document: vscode.TextDocument, position: vscode.Position, _token: vscode.CancellationToken): vscode.Definition | undefined {
+        const wordRange = _document.getWordRangeAtPosition(position);
+        if (!wordRange) {
+            return undefined;
         }
 
-        return undefined;
+        const word = _document.getText(wordRange);
+        const definitions: vscode.Location[] = [];
+
+        for (const localeMap of this.translations.values()) {
+            const translation = localeMap.get(word);
+            if (translation) {
+                definitions.push(new vscode.Location(
+                    vscode.Uri.file(translation.file),
+                    new vscode.Position(translation.line, 0)
+                ));
+            }
+        }
+
+        return definitions.length > 0 ? definitions : undefined;
     }
 }

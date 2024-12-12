@@ -1,23 +1,23 @@
 {
   "name": "vs-code-powerschool",
   "displayName": "VS Code - PowerSchool",
-  "description": "Syntax highlighting for the TLIST_SQL tag",
-  "version": "0.0.2",
+  "description": "Syntax highlighting and linting for PowerSchool TLIST_SQL tags with i18n support",
+  "version": "1.0.0",
   "publisher": "BenjaminKemp",
   "license": "MIT",
   "engines": {
-    "vscode": "^1.76.0"
+    "vscode": "^1.95.0"
   },
   "categories": [
     "Programming Languages",
-    "Snippets"
+    "Snippets",
+    "Linters"
   ],
   "icon": "images/icon.png",
   "main": "./out/extension.js",
   "activationEvents": [
-    "onStartupFinished",
     "onLanguage:html",
-    "workspaceContains:**/MessageKeys/*.properties"
+    "workspaceContains:**/*.properties"
   ],
   "contributes": {
     "configuration": {
@@ -74,28 +74,30 @@
     ]
   },
   "scripts": {
-    "vscode:prepublish": "npm run compile",
+    "vscode:prepublish": "pnpm run compile",
     "compile": "tsc -p ./",
     "watch": "tsc -watch -p ./",
-    "pretest": "npm run compile && npm run lint",
-    "lint": "eslint src --ext ts",
-    "test": "node ./out/test/runTest.js"
+    "pretest": "pnpm run compile && pnpm run lint",
+    "lint": "eslint . --ext .ts",
+    "test": "node ./out/test/runTest.js",
+    "package": "vsce package",
+    "publish": "vsce publish"
   },
   "devDependencies": {
-    "@types/glob": "^8.1.0",
-    "@types/mocha": "^10.0.10",
-    "@types/node": "~22.10.0",
-    "@types/semver": "^7.5.8",
+    "@types/mocha": "^10.0.6",
+    "@types/node": "^20.10.5",
     "@types/vscode": "^1.95.0",
-    "@typescript-eslint/eslint-plugin": "^8.16.0",
-    "@typescript-eslint/parser": "^8.16.0",
-    "@vscode/test-electron": "^2.4.1",
-    "@vscode/vsce": "^3.2.1",
-    "eslint": "^9.15.0",
+    "@typescript-eslint/eslint-plugin": "^6.15.0",
+    "@typescript-eslint/parser": "^6.15.0",
+    "@vscode/test-electron": "^2.3.8",
+    "@vscode/vsce": "^2.22.0",
+    "eslint": "^8.56.0",
+    "mocha": "^10.2.0",
+    "typescript": "^5.3.3"
+  },
+  "dependencies": {
     "glob": "^11.0.0",
-    "mocha": "^10.8.2",
-    "sql-lint": "^1.0.0",
-    "typescript": "^5.7.2"
+    "sql-parser": "^0.5.0"
   },
   "bugs": {
     "url": "https://github.com/bjkemp/vs-code-powerschool/issues",

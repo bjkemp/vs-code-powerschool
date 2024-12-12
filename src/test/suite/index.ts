@@ -1,29 +1,39 @@
 import * as path from 'path';
-import * as Mocha from 'mocha';
+import Mocha from 'mocha';
 import { glob } from 'glob';
 
-const mocha = new Mocha({
-  ui: 'tdd',
-  color: true
-});
+export async function run(testsRoot: string): Promise<void> {
+  // Create the mocha test
+  const mocha = new Mocha({
+    ui: 'tdd',
+    color: true,
+    reporter: 'spec',
+    timeout: 10000,
+  });
 
-export async function run(testsRoot: string, options: Mocha.MochaOptions): Promise<void> {
   try {
-    const files = await glob('**/.test.js', { cwd: testsRoot }); // Changed glob pattern
+    // Find all test files
+    const files = await glob('**/*.test.js', {
+      cwd: testsRoot,
+      absolute: false,
+      nodir: true,
+    });
 
-    files.forEach(f => mocha.addFile(path.resolve(testsRoot, f)));
+    // Add files to the test suite
+    for (const f of files) {
+      mocha.addFile(path.resolve(testsRoot, f));
+    }
 
-    await new Promise<void>((resolve, reject) => {
-      mocha.run(failures => {
-        if (failures > 0) {
-          reject(new Error(`${failures} tests failed.`));
-        } else {
-          resolve();
-        }
-      });
-    }); 
+    // Run the mocha tests
+    const failures = await new Promise<number>((resolve) => {
+      mocha.run(resolve);
+    });
+
+    if (failures > 0) {
+      throw new Error(`${failures} tests failed.`);
+    }
   } catch (err) {
-    console.error(err);
-    throw err; // Re-throw the error for better error handling
+    console.error('Failed to run tests:', err);
+    throw err;
   }
 }
